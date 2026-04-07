@@ -1,0 +1,16 @@
+{
+  "name": "hypera-conferencia",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cds watch"
+  },
+  "dependencies": {
+    "@sap/cds": "^8",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^8"
+  }
+}
