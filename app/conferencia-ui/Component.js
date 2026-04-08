@@ -11,15 +11,19 @@ sap.ui.define(
       init: function () {
         UIComponent.prototype.init.apply(this, arguments);
 
-        const oAppModel = new JSONModel({
+        var oAppModel = new JSONModel({
           currentUser: {
-            ID: "11111111-1111-1111-1111-111111111111",
-            name: "Colaborador Hypera",
+            ID: null,
+            name: "",
             role: "COLABORADOR",
+            authenticated: false,
+          },
+          ui: {
+            busy: false,
           },
         });
-
         this.setModel(oAppModel, "app");
+
         this.getRouter().initialize();
       },
     });
