@@ -1,18 +1,18 @@
 {
+  "_version": "1.40.0",
   "sap.app": {
     "id": "hypera.conferencia.ui",
     "type": "application",
-    "title": "Fluxo de Conferência",
+    "i18n": "i18n/i18n.properties",
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
     "applicationVersion": {
       "version": "1.0.0"
     },
     "dataSources": {
-      "mainService": {
-        "uri": "/odata/v4/conference/",
-        "type": "OData",
-        "settings": {
-          "odataVersion": "4.0"
-        }
+      "mockData": {
+        "uri": "localService/mockdata.json",
+        "type": "JSON"
       }
     }
   },
@@ -40,21 +40,23 @@
       }
     },
     "models": {
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {
-          "operationMode": "Server",
-          "autoExpandSelect": true,
-          "synchronizationMode": "None"
-        }
-      },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "hypera.conferencia.ui.i18n.i18n"
         }
+      },
+      "": {
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "mockData"
       }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
     },
     "routing": {
       "config": {
@@ -63,7 +65,8 @@
         "viewPath": "hypera.conferencia.ui.view",
         "controlId": "app",
         "controlAggregation": "pages",
-        "async": true
+        "async": true,
+        "transition": "slide"
       },
       "routes": [
         {
@@ -77,6 +80,11 @@
           "target": "shipments"
         },
         {
+          "name": "monitor",
+          "pattern": "monitor",
+          "target": "monitor"
+        },
+        {
           "name": "conference",
           "pattern": "conference/{shipmentId}",
           "target": "conference"
@@ -84,13 +92,20 @@
       ],
       "targets": {
         "login": {
-          "viewName": "Login"
+          "viewName": "Login",
+          "viewLevel": 1
         },
         "shipments": {
-          "viewName": "ShipmentList"
+          "viewName": "ShipmentList",
+          "viewLevel": 2
+        },
+        "monitor": {
+          "viewName": "Monitor",
+          "viewLevel": 2
         },
         "conference": {
-          "viewName": "Conference"
+          "viewName": "Conference",
+          "viewLevel": 3
         }
       }
     }

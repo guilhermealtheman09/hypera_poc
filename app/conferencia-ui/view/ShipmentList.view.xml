@@ -1,0 +1,152 @@
+<mvc:View
+  controllerName="hypera.conferencia.ui.controller.ShipmentList"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  height="100%">
+
+  <Page
+    id="shipmentsPage"
+    title="{i18n>shipmentsTitle}"
+    showNavButton="true"
+    navButtonPress=".onNavBack"
+    class="hyperaPage hyperaShipmentsPage">
+
+    <customHeader>
+      <Bar class="hyperaHeader hyperaHeaderTall">
+        <contentLeft>
+          <Button
+            icon="sap-icon://log"
+            type="Transparent"
+            press=".onLogout"
+            text="Sair"
+            class="hyperaHeaderBtn" />
+        </contentLeft>
+        <contentMiddle>
+          <Title text="{i18n>shipmentsTitle}" level="H1" class="hyperaHeaderTitle" />
+        </contentMiddle>
+        <contentRight>
+          <ObjectStatus
+            text="{app>/currentUser/name}"
+            icon="sap-icon://employee"
+            class="hyperaHeaderUserBadge" />
+        </contentRight>
+      </Bar>
+    </customHeader>
+
+    <content>
+
+      <!-- Search + filtros (fora do subHeader pra não ser clipado pelo Toolbar) -->
+      <VBox class="hyperaFiltersBlock" width="100%">
+        <SearchField
+          id="searchField"
+          placeholder="{i18n>shipmentsSearchPlaceholder}"
+          width="100%"
+          liveChange=".onSearch"
+          search=".onSearch"
+          class="hyperaSearchField" />
+        <HBox class="hyperaSecondaryFilters" wrap="Wrap" width="100%">
+          <VBox class="hyperaFilterField">
+            <Label text="DOCA" class="hyperaFilterLabel" />
+            <Select id="dockSelect" change=".onDockChange" class="hyperaFilterSelect" forceSelection="false">
+              <core:Item key="ALL" text="Todas as docas" />
+            </Select>
+          </VBox>
+          <VBox class="hyperaFilterField">
+            <Label text="TRANSPORTADORA" class="hyperaFilterLabel" />
+            <Select id="carrierSelect" change=".onCarrierChange" class="hyperaFilterSelect" forceSelection="false">
+              <core:Item key="ALL" text="Todas as transportadoras" />
+            </Select>
+          </VBox>
+        </HBox>
+      </VBox>
+
+      <ScrollContainer
+        horizontal="true"
+        vertical="false"
+        class="hyperaChipsScroll"
+        width="100%">
+        <HBox class="hyperaChipsRow">
+          <Button id="chipAll"        text="Todas"          press=".onChipPress" type="Emphasized" class="hyperaChip hyperaChipActive" />
+          <Button id="chipPending"    text="Pendentes"      press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipInProgress" text="Em andamento"   press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipApproved"   text="Aprovadas"      press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipDivergent"  text="Divergentes"    press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipBoxByBox"   text="Caixa a caixa"  press=".onChipPress" type="Default"    class="hyperaChip" />
+        </HBox>
+      </ScrollContainer>
+
+      <List
+        id="shipmentList"
+        items="{
+          path: '/Shipments',
+          sorter: { path: 'shipmentNumber', descending: false }
+        }"
+        growing="true"
+        growingThreshold="40"
+        growingScrollToLoad="true"
+        noDataText="{i18n>shipmentNoData}"
+        class="hyperaList">
+
+        <CustomListItem type="Active" press=".onItemPress" class="hyperaListItem">
+
+          <HBox alignItems="Center" justifyContent="SpaceBetween" class="hyperaItemRow" wrap="Wrap">
+
+            <VBox class="hyperaItemMain">
+              <HBox alignItems="Center" wrap="Wrap">
+                <Text text="{shipmentNumber}" class="hyperaItemNumber" />
+                <ObjectStatus
+                  class="hyperaStatusChip sapUiTinyMarginBegin"
+                  text="{
+                    path: 'status',
+                    formatter: '.formatter.statusText'
+                  }"
+                  state="{
+                    path: 'status',
+                    formatter: '.formatter.statusState'
+                  }"
+                  icon="{
+                    path: 'status',
+                    formatter: '.formatter.statusIcon'
+                  }" />
+              </HBox>
+              <Text text="{product}" class="hyperaItemProduct" />
+              <HBox class="hyperaItemMeta" wrap="Wrap">
+                <Text text="{dock}" class="hyperaItemMetaTextStrong" />
+                <Text text=" • " class="hyperaItemMetaSep" />
+                <Text text="{carrier}" class="hyperaItemMetaText" />
+                <Text text=" • " class="hyperaItemMetaSep" />
+                <Text text="Pedido {orderNumber}" class="hyperaItemMetaText" />
+                <Text text=" • " class="hyperaItemMetaSep" />
+                <Text text="{destination}" class="hyperaItemMetaText" />
+              </HBox>
+            </VBox>
+
+            <VBox class="hyperaItemQty" alignItems="End">
+              <Text
+                text="{
+                  parts: ['countedQuantity', 'expectedQuantity'],
+                  formatter: '.formatter.progressText'
+                }"
+                class="hyperaItemQtyText" />
+              <Text text="esperado / contado" class="hyperaItemQtyLabel" />
+            </VBox>
+
+          </HBox>
+
+        </CustomListItem>
+
+      </List>
+
+    </content>
+
+    <footer>
+      <Toolbar class="hyperaFooterBar">
+        <Text text="Total: {/Shipments/length} remessas" class="hyperaFooterText" />
+        <ToolbarSpacer />
+        <Text text="Mock local • {app>/currentUser/role}" class="hyperaFooterText" />
+      </Toolbar>
+    </footer>
+
+  </Page>
+</mvc:View>
