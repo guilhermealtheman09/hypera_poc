@@ -16,42 +16,49 @@
         <contentLeft>
           <Button
             icon="sap-icon://log"
-            type="Transparent"
+            type="Default"
             press=".onLogout"
             text="Sair"
             class="hyperaHeaderBtn" />
         </contentLeft>
+
         <contentMiddle>
           <Title text="Monitor Operacional" level="H1" class="hyperaHeaderTitle" />
         </contentMiddle>
+
         <contentRight>
-          <HBox alignItems="Center" class="hyperaHeaderRight">
-            <Button
-              id="bellBtn"
-              icon="sap-icon://bell"
-              type="Transparent"
-              press=".onBellPress"
-              class="hyperaBellBtn"
-              tooltip="Ações pendentes" />
-            <ObjectStatus
-              text="{app>/currentUser/name}"
-              icon="sap-icon://employee"
-              class="hyperaHeaderUserBadge" />
-          </HBox>
+          <HBox />
         </contentRight>
       </Bar>
     </customHeader>
 
     <content>
 
-      <!-- KPIs no topo -->
       <HBox class="hyperaKpiRow" wrap="Wrap">
 
-        <VBox class="hyperaKpiCard hyperaKpiTotal">
-          <HBox class="hyperaKpiHeader" alignItems="Center">
-            <core:Icon src="sap-icon://product" class="hyperaKpiIcon" />
-            <Text text="Total" class="hyperaKpiLabel" />
+        <VBox class="hyperaKpiCard hyperaKpiCardTop hyperaKpiTotal">
+          <HBox justifyContent="SpaceBetween" alignItems="Start" class="hyperaKpiTopRow">
+            <HBox class="hyperaKpiHeader" alignItems="Center">
+              <core:Icon src="sap-icon://product" class="hyperaKpiIcon" />
+              <Text text="Total" class="hyperaKpiLabel" />
+            </HBox>
+
+            <HBox alignItems="Center" class="hyperaTopActions">
+              <Button
+                id="bellBtn"
+                icon="sap-icon://bell"
+                type="Transparent"
+                press=".onBellPress"
+                class="hyperaBellBtn"
+                tooltip="Ações pendentes" />
+
+              <ObjectStatus
+                text="{app>/currentUser/name}"
+                icon="sap-icon://employee"
+                class="hyperaHeaderUserBadge" />
+            </HBox>
           </HBox>
+
           <Title text="{monitor>/total}" level="H1" class="hyperaKpiValue" />
         </VBox>
 
@@ -97,7 +104,6 @@
 
       </HBox>
 
-      <!-- Alertas críticos -->
       <Panel
         class="hyperaAlertPanel"
         backgroundDesign="Solid"
@@ -146,29 +152,31 @@
         </content>
       </Panel>
 
-      <!-- Filtros (chips horizontais) -->
       <ScrollContainer
         horizontal="true"
         vertical="false"
         class="hyperaChipsScroll"
         width="100%">
         <HBox class="hyperaChipsRow">
-          <Button id="chipAll"         text="Todas"          press=".onChipPress" type="Emphasized" class="hyperaChip hyperaChipActive" />
-          <Button id="chipPending"     text="Pendentes"      press=".onChipPress" type="Default"    class="hyperaChip" />
-          <Button id="chipInProgress"  text="Em andamento"   press=".onChipPress" type="Default"    class="hyperaChip" />
-          <Button id="chipDivergent"   text="Divergentes"    press=".onChipPress" type="Default"    class="hyperaChip" />
-          <Button id="chipAwaitingSup" text="Aguardando"     press=".onChipPress" type="Default"    class="hyperaChip" />
-          <Button id="chipBoxByBox"    text="Caixa a caixa"  press=".onChipPress" type="Default"    class="hyperaChip" />
-          <Button id="chipApproved"    text="Aprovadas"      press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipAll"         text="Todas"         press=".onChipPress" type="Emphasized" class="hyperaChip hyperaChipActive" />
+          <Button id="chipPending"     text="Pendentes"     press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipInProgress"  text="Em andamento"  press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipDivergent"   text="Divergentes"   press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipAwaitingSup" text="Aguardando"    press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipBoxByBox"    text="Caixa a caixa" press=".onChipPress" type="Default"    class="hyperaChip" />
+          <Button id="chipApproved"    text="Aprovadas"     press=".onChipPress" type="Default"    class="hyperaChip" />
         </HBox>
       </ScrollContainer>
 
-      <SearchField
-        id="searchField"
-        placeholder="Buscar por remessa, produto, doca, transportadora..."
-        liveChange=".onSearch"
-        search=".onSearch"
-        class="sapUiSmallMargin" />
+      <VBox class="hyperaFiltersBlock">
+        <SearchField
+          id="searchField"
+          width="100%"
+          placeholder="Buscar por remessa, produto, doca ou transportadora"
+          liveChange=".onSearch"
+          search=".onSearch"
+          class="hyperaSearchField" />
+      </VBox>
 
       <List
         id="monitorList"
@@ -211,6 +219,7 @@
                 <Text text="{carrierPlate}" class="hyperaItemMetaText" />
               </HBox>
             </VBox>
+
             <VBox class="hyperaItemQty" alignItems="End">
               <Text text="Tent. {attempts}/3" class="hyperaItemQtyLabel" />
               <Text
@@ -230,7 +239,6 @@
       <Toolbar class="hyperaFooterBar">
         <Text text="Atualização em tempo real • Mock local" class="hyperaFooterText" />
         <ToolbarSpacer />
-        <Text text="Hypera Pharma • favo.digital" class="hyperaFooterText" />
       </Toolbar>
     </footer>
 
